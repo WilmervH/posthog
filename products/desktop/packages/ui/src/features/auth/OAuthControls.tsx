@@ -11,15 +11,18 @@ interface OAuthControlsProps {
   onAuthInitiated?: (region: CloudRegion) => void;
   /** Defaults to the dev build, where development targets are available. */
   includeDevRegion?: boolean;
+  /** Custom needs a host that can hold the target. Defaults to host capability. */
+  includeCustomRegion?: boolean;
 }
 
 export function OAuthControls({
   onAuthInitiated,
   includeDevRegion = import.meta.env.DEV ||
     import.meta.env.VITE_POSTHOG_BUILD_CHANNEL === "test",
+  includeCustomRegion: includeCustomRegionProp,
 }: OAuthControlsProps = {}) {
   const { customCloud: hostHoldsCustomCloud } = useHostCapabilities();
-  const includeCustomRegion = includeDevRegion && hostHoldsCustomCloud;
+  const includeCustomRegion = includeCustomRegionProp ?? hostHoldsCustomCloud;
   const {
     region,
     handleAuth,

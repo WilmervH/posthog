@@ -10,8 +10,7 @@ export function isTestChannelBuild(): boolean {
   return buildChannel() === TEST_CHANNEL;
 }
 
-// A release build has no way to edit a custom target, so it must not read or
-// write one either.
+// Patched: allow custom cloud in all builds (for self-hosted use).
 export function isCustomCloudBuild(): boolean {
-  return process.env.POSTHOG_CODE_IS_DEV === "true" || isTestChannelBuild();
+  return true;
 }
